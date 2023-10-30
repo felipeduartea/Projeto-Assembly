@@ -14,7 +14,7 @@ includelib \masm32\lib\masm32.lib
     outputString db 256 dup(?)
     inputHandle dd ?
     outputHandle dd ?
-    console_count dd ?
+    console_count db 6480 dup(0)
     tamanho_string dd ?
     promptExisting db "Nome do arquivo: ", 0
     promptNew db "Nome do novo arquivo: ", 0
@@ -89,10 +89,10 @@ invoke ReadFile, inputHandle, addr console_count, 32, addr tamanho_string, NULL
 invoke WriteFile, outputHandle, addr console_count, 32, addr tamanho_string, NULL
 
 loopResto:
-    invoke ReadFile, inputHandle, addr console_count, 3, addr tamanho_string, NULL
+    invoke ReadFile, inputHandle, offset console_count, 6480 , addr tamanho_string, NULL
     cmp tamanho_string, 0
     jbe finalizar
-    invoke WriteFile, outputHandle, addr console_count, 3, addr tamanho_string, NULL
+    invoke WriteFile, outputHandle, offset console_count, 6480 , addr tamanho_string, NULL
     jmp loopResto
 
 finalizar:
