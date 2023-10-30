@@ -77,9 +77,25 @@ invoke CreateFile, addr outputString, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FIL
 mov outputHandle, eax
 
 
-invoke ReadFile, inputHandle, addr console_count, sizeof console_count, addr console_count, NULL
-invoke WriteFile, outputHandle, addr console_count, sizeof console_count, addr tamanho_string, NULL
+invoke ReadFile, inputHandle, addr console_count, 18, addr tamanho_string, NULL
+invoke WriteFile, outputHandle, addr console_count, 18, addr tamanho_string, NULL
 
+
+invoke ReadFile, inputHandle, addr console_count, 4, addr tamanho_string, NULL
+invoke WriteFile, outputHandle, addr console_count, 4, addr tamanho_string, NULL
+
+
+invoke ReadFile, inputHandle, addr console_count, 32, addr tamanho_string, NULL
+invoke WriteFile, outputHandle, addr console_count, 32, addr tamanho_string, NULL
+
+loopResto:
+    invoke ReadFile, inputHandle, addr console_count, 3, addr tamanho_string, NULL
+    cmp tamanho_string, 0
+    jbe finalizar
+    invoke WriteFile, outputHandle, addr console_count, 3, addr tamanho_string, NULL
+    jmp loopResto
+
+finalizar:
 invoke CloseHandle, inputHandle
 invoke CloseHandle, outputHandle
 
